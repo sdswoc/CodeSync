@@ -6,58 +6,47 @@ import { CodeMirrorBinding } from 'y-codemirror';
 import 'codemirror/mode/javascript/javascript.js';
 import 'codemirror/mode/htmlmixed/htmlmixed.js';
 import 'codemirror/mode/css/css.js';
+import 'codemirror/mode/python/python.js';
+import 'codemirror/mode/rust/rust.js';
 
 const currentPath = window.location.pathname;
 const roomID = currentPath.slice(-36);
 
-
-const data = {
-  roomID:roomID
-};
-
 const languageBox = document.getElementById('languageBtn');
 const language  = languageBox.innerHTML;
-
 
 const myPeer = new Peer(undefined,{
   host:'/',
   port:'3001',
-})
-
-
-
-axios.post('/getData',data)
-  .then((res)=>{
-   const language = res.data.language
-  })
+});
 
 window.addEventListener('load',()=>{
   let stream;
 
-  const videoGrid = document.getElementById('video-grid')
-  const myVideo = document.createElement('video')
-  myVideo.setAttribute('id','myVideo')
-  const editorBox = document.getElementById('editor')
-  const dwnldBtn = document.getElementById('download')
+  const videoGrid = document.getElementById('video-grid');
+  const myVideo = document.createElement('video');
+  myVideo.setAttribute('id','myVideo');
+  const editorBox = document.getElementById('editor');
+  const dwnldBtn = document.getElementById('download');
 
 
 async function init(){
-  stream = await navigator.mediaDevices.getUserMedia({video:true,audio:false})
-  addVideoStream(myVideo,stream)
+  stream = await navigator.mediaDevices.getUserMedia({video:true,audio:false});
+  addVideoStream(myVideo,stream);
 }
 
 
 function addVideoStream(Video,stream){
-  Video.srcObject = stream
+  Video.srcObject = stream;
   Video.addEventListener('loadedmetadata',()=>{
-    Video.play()
+    Video.play();
   })
-  videoGrid.append(Video)
+  videoGrid.append(Video);
 }
-init()
+init();
 
 
-let clientId
+let clientId;
 
 myPeer.on('open',(id)=>{
   console.log('my client ID:',id)
@@ -104,8 +93,6 @@ const provider = new WebsocketProvider(
 
 
 const ytext = ydoc.getText('codemirror')
-
-
 
 const editor = CodeMirror(editorBox,{
   mode:language,

@@ -102,14 +102,6 @@ app.post('/TeleCode/room/:roomID',(req,res)=>{
     res.render('room',{data})
 })
 
-app.post('/getData',async(req,res)=>{
-    console.log(req.body)
-    const findRoomByID = req.body.roomID;
-    console.log('roomID:',findRoomByID)
-    const foundRoom = await Room.findOne({roomID:findRoomByID});
-    console.log(foundRoom);
-    res.send(foundRoom)
-})
 
 app.post('/joinRoom',async(req,res)=>{
     console.log(req.body)
