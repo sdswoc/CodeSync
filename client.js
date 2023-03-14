@@ -4,6 +4,8 @@ import * as Y from 'yjs';
 import { WebsocketProvider } from 'y-websocket';
 import { CodeMirrorBinding } from 'y-codemirror';
 import 'codemirror/mode/javascript/javascript.js';
+import 'codemirror/mode/htmlmixed/htmlmixed.js';
+import 'codemirror/mode/css/css.js';
 
 const currentPath = window.location.pathname;
 const roomID = currentPath.slice(-36);
@@ -13,6 +15,8 @@ const data = {
   roomID:roomID
 };
 
+const languageBox = document.getElementById('languageBtn');
+const language  = languageBox.innerHTML;
 
 
 const myPeer = new Peer(undefined,{
@@ -28,7 +32,7 @@ axios.post('/getData',data)
   })
 
 window.addEventListener('load',()=>{
-  let stream; 
+  let stream;
 
   const videoGrid = document.getElementById('video-grid')
   const myVideo = document.createElement('video')
@@ -104,7 +108,7 @@ const ytext = ydoc.getText('codemirror')
 
 
 const editor = CodeMirror(editorBox,{
-  mode:language.innerHTML,
+  mode:language,
   lineNumbers:true,
   theme:'midnight',
 })
