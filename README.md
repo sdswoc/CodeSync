@@ -1,1 +1,1 @@
-# collaborative-code-editor
+# CodeSync
