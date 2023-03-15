@@ -9,15 +9,18 @@ const axios = require('axios');
 const  { google } = require('googleapis');
 const session = require('express-session');
 
-app.use(express.urlencoded({extended:true}));
-app.use(session({secret:'secretCodeSync',resave:false,saveUninitialized:true,}));
-const mongoose = require('mongoose');
-mongoose.set('strictQuery',false);
-
 const REDIRECT_URI = process.env.REDIRECT_URI;
 const CLIENT_ID = process.env.CLIENT_ID;
 const SECRET_ID = process.env.SECRET_ID;
 const MONGODB_STRING = process.env.MONGODB_STRING;
+const SESSION_SECRET = process.env.SESSION_SECRET;
+
+app.use(express.urlencoded({extended:true}));
+app.use(session({secret:SESSION_SECRET,resave:false,saveUninitialized:true,}));
+const mongoose = require('mongoose');
+mongoose.set('strictQuery',false);
+
+
 
 const url =MONGODB_STRING
 mongoose.connect(url,{useNewUrlParser:true, useUnifiedTopology: true})
@@ -35,11 +38,14 @@ app.use(bodyParser.json());
 app.set('view engine','ejs');
 
 app.get('/',(req,res)=>{
-    res.render('introPage')
+    if(req.session.user_id){
+        res.render('startpage')
+    }else{
+        res.render('introPage')
+    }
 })
 
 const requireLogin = (req,res,next)=>{
-    console.log(req.session.user_id)
     if(!req.session.user_id){
         return res.redirect('/')
     }
@@ -53,35 +59,37 @@ app.get('/TeleCode/newRoom',requireLogin,(req,res)=>{
 })
 
 app.get('/TeleCode',async(req,res)=>{
-    const code = req.query.code
-    console.log({code});
-
-    const user = getGoogleUser({code});
-
-    user.then(async(result)=>{
-        const id = result.id;
-        const data = {
-            name:result.name,
-            email:result.email,
-            id:result.id,
-            image:result.picture
+    try{const code = req.query.code
+    
+        const user = getGoogleUser({code});
+    
+        user.then(async(result)=>{
+            const id = result.id;
+            const data = {
+                name:result.name,
+                email:result.email,
+                id:result.id,
+                image:result.picture
+            }
+            const count = await User.countDocuments({id:result.id})
+            if(count ==0){
+            User.insertMany(data)
+                .then(res=>{
+                }).catch(err=>{
+                    console.log('Error inserting user data',err)
+                })
+            }
+            req.session.user_id = id;
+            if (result.verified_email){
+                res.render('startpage')
+            }else{
+                res.send('Not Verified')
+            }
+        })}
+        catch(err){
+            res.redirect('/')
         }
-        const count = await User.countDocuments({id:result.id})
-        if(count ==0){
-        User.insertMany(data)
-            .then(res=>{
-                console.log(res)
-            }).catch(err=>{
-                console.log(err)
-            })
-        }
-        req.session.user_id = id;
-        if (result.verified_email){
-            res.render('startpage')
-        }else{
-            res.send('Not Verified')
-        }
-    })
+    
     
 })
 
@@ -94,17 +102,15 @@ app.post('/TeleCode/room/:roomID',(req,res)=>{
     }
     Room.insertMany(data)
         .then(res=>{
-            console.log(res)
         })
         .catch(e=>{
-            console.log(e)
+            console.log('Error inserting Room Data',e)
         })
     res.render('room',{data})
 })
 
 
 app.post('/joinRoom',async(req,res)=>{
-    console.log(req.body)
     const roomID = req.body.roomId;
     const username = req.body.username;
     res.redirect(`/TeleCode/join/${roomID}`);
@@ -122,12 +128,10 @@ app.post('/peerJs',async(req,res)=>{
     const peerID = req.body.clientId;
     const founduser = await Room.findOne({roomID:roomID});
     const clients = founduser.peerIds.length;
-    console.log('CLIENTS_',clients)
     if(clients == 0){
         await Room.updateOne({roomID:roomID},{$push:{peerIds:peerID}});
     }
     if(clients == 1){
-        console.log(founduser.peerIds[0])
         res.send(founduser.peerIds[0])
     }
     
@@ -144,7 +148,8 @@ const oauth2Client = new google.auth.OAuth2(
     REDIRECT_URI
   );
 
-app.post ('/CodeSync/logout',(req,res)=>{
+app.post ('/CodeSync/logout',async (req,res)=>{
+    await User.deleteOne({id:req.session.user})
     req.session.destroy();
     res.redirect('/');
 })

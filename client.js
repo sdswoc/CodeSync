@@ -49,16 +49,14 @@ init();
 let clientId;
 
 myPeer.on('open',(id)=>{
-  console.log('my client ID:',id)
   const peerInfo = {
     clientId:id,
     roomId:roomID
   }
   axios.post('/peerJs',peerInfo)
   .then((res)=>{
-    console.log('others client id sent by server',res.data)
     clientId = res.data;
-    console.log("others client ID:",clientId)
+
     connectToNewUser(clientId,stream);
   })
 })
