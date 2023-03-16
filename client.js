@@ -9,6 +9,54 @@ import 'codemirror/mode/css/css.js';
 import 'codemirror/mode/python/python.js';
 import 'codemirror/mode/rust/rust.js';
 
+const videoGrid = document.getElementById('video-grid');
+const myVideo = document.createElement('video');
+myVideo.setAttribute('id','myVideo');
+
+async function init(){
+  const stream = await navigator.mediaDevices.getUserMedia({video:true,audio:false});
+  addVideoStream(myVideo,stream);
+
+  function addVideoStream(Video,stream){
+    Video.srcObject = stream;
+    Video.addEventListener('loadedmetadata',()=>{
+      Video.play();
+    })
+    videoGrid.append(Video);
+  }
+  let clientId;
+
+  myPeer.on('open',(id)=>{
+    const peerInfo = {
+      clientId:id,
+      roomId:roomID
+    }
+    axios.post('/peerJs',peerInfo)
+    .then((res)=>{
+      clientId = res.data;
+  
+      connectToNewUser(clientId,stream);
+    })
+  })
+  myPeer.on('call',async(call)=>{
+    await call.answer(stream)
+    const video = document.createElement('video')
+    video.setAttribute('id','remoteVideo')
+    call.on('stream',userVideoStream=>{
+      addVideoStream(video,userVideoStream)
+    })
+  })
+  function connectToNewUser(id,stream){
+    const call = myPeer.call(id,stream)
+    const video = document.createElement('video')
+    call.on('stream',userVideoStream=>{
+      addVideoStream(video,userVideoStream)
+    })
+  }
+  
+}
+
+
 const currentPath = window.location.pathname;
 const roomID = currentPath.slice(-36);
 
@@ -21,65 +69,13 @@ const myPeer = new Peer(undefined,{
 });
 
 window.addEventListener('load',()=>{
-  let stream;
+ 
 
-  const videoGrid = document.getElementById('video-grid');
-  const myVideo = document.createElement('video');
-  myVideo.setAttribute('id','myVideo');
+  
   const editorBox = document.getElementById('editor');
   const dwnldBtn = document.getElementById('download');
 
-
-async function init(){
-  stream = await navigator.mediaDevices.getUserMedia({video:true,audio:false});
-  addVideoStream(myVideo,stream);
-}
-
-
-function addVideoStream(Video,stream){
-  Video.srcObject = stream;
-  Video.addEventListener('loadedmetadata',()=>{
-    Video.play();
-  })
-  videoGrid.append(Video);
-}
 init();
-
-
-let clientId;
-
-myPeer.on('open',(id)=>{
-  const peerInfo = {
-    clientId:id,
-    roomId:roomID
-  }
-  axios.post('/peerJs',peerInfo)
-  .then((res)=>{
-    clientId = res.data;
-
-    connectToNewUser(clientId,stream);
-  })
-})
-
-
-myPeer.on('call',call=>{
-  call.answer(stream)
-  const video = document.createElement('video')
-  video.setAttribute('id','remoteVideo')
-  call.on('stream',userVideoStream=>{
-    addVideoStream(video,userVideoStream)
-  })
-})
-
-
-
-function connectToNewUser(id,stream){
-  const call = myPeer.call(id,stream)
-  const video = document.createElement('video')
-  call.on('stream',userVideoStream=>{
-    addVideoStream(video,userVideoStream)
-  })
-}
 
 const ydoc = new Y.Doc()
 const provider = new WebsocketProvider(

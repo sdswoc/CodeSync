@@ -53,12 +53,12 @@ const requireLogin = (req,res,next)=>{
 }
 
 
-app.get('/TeleCode/newRoom',requireLogin,(req,res)=>{
+app.get('/CodeSync/newRoom',requireLogin,(req,res)=>{
     const roomID = {roomID:uuid()};
     res.render('newRoom',{roomID})
 })
 
-app.get('/TeleCode',async(req,res)=>{
+app.get('/CodeSync',async(req,res)=>{
     try{const code = req.query.code
     
         const user = getGoogleUser({code});
@@ -93,7 +93,7 @@ app.get('/TeleCode',async(req,res)=>{
     
 })
 
-app.post('/TeleCode/room/:roomID',(req,res)=>{
+app.post('/CodeSync/room/:roomID',(req,res)=>{
     const roomID= req.params.roomID;
     const data = {
         roomID:roomID,
@@ -113,11 +113,11 @@ app.post('/TeleCode/room/:roomID',(req,res)=>{
 app.post('/joinRoom',async(req,res)=>{
     const roomID = req.body.roomId;
     const username = req.body.username;
-    res.redirect(`/TeleCode/join/${roomID}`);
+    res.redirect(`/CodeSync/join/${roomID}`);
     await Room.updateOne({roomID:roomID},{$push:{users:username}})
 })
 
-app.get('/TeleCode/join/:roomID',requireLogin,async(req,res)=>{
+app.get('/CodeSync/join/:roomID',requireLogin,async(req,res)=>{
     const roomID = req.params.roomID;
     const data = await Room.findOne({roomID:roomID});
     res.render('room',{data});
@@ -138,7 +138,7 @@ app.post('/peerJs',async(req,res)=>{
 })
 
 
-app.get("/TeleCode/SignIn",(req,res)=>{
+app.get("/CodeSync/SignIn",(req,res)=>{
     res.redirect(getGoogleAuthURL())
 });
 

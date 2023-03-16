@@ -4,6 +4,8 @@ Project submission for Winter Of Code 2023 conducted by [SDSLabs](https://github
 ## Description
 This website aims to provide a collaborative coding platform that allows users to work together in real-time on code projects, share knowledge, and improve their coding skills. The platform is designed to be user-friendly and accessible to coders of all skill levels, whether they are working on personal projects or collaborating with peers.
 
+This project has a node with express backend and EJS as template engine.
+
 ## References for the Dependencies used
 
 - [mongoose](https://mongoosejs.com/docs/guide.html)
@@ -20,6 +22,10 @@ This website aims to provide a collaborative coding platform that allows users t
     - [y-codemirror](https://github.com/yjs/y-codemirror)
     - [y-websocket](https://github.com/yjs/y-websocket)
 
+- [peerjs](https://peerjs.com/docs/#api)
+
+- [webpack](https://webpack.js.org/concepts/)
+
 ## Set up this project
 
 - clone this repository
@@ -30,11 +36,19 @@ This website aims to provide a collaborative coding platform that allows users t
 
 - make a .env file reffering to .env.example
 
-- ```npm install``` To install all the modules
+- Open the cloned directory with terminal and give the commands -
 
-- `npm run build` To build the bundle file by using webpack
+```bash
+npm install
+```
+```bash
+npm run build
+```
+```bash
+npm start
+```
+- Now the app is running on port [8080](http://localhost:8080/) :rocket:
 
-- `npm start` Now the app is running on localhost:8080
 
 ## Author
 [Arpan Mahanty](https://github.com/ArpanMahanty01)
