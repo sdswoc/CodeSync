@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../introPage.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <title>CodeSync</title>
+    <link rel="icon" href="/images/favicon-32x32.png" type="image/x-icon">
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-custom">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#"><img src="../../Screenshot 2023-03-12 161528.png" alt="" style="height: 50px; width: 50px; border-radius: 10px;"></a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+          <li class="nav-item" style="padding: 5px;">
+            <a class="nav-link active" aria-current="page" href="/" style="color: white;">Home</a>
+          </li>
+          <li class="nav-item" style="padding: 5px;" >
+            <button type="button" class="btn btn-outline-primary" type="submit" id="signIn"><a href="/CodeSync/SignIn">Sign In</a></button>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+      
+    <div id="fullpage">
+    <section class = 'hidden' >
+        <h1 style="color: white;" style="position: absolute;">Welcome to CodeSync</h1>
+        <p style="color: white;" style="position: absolute;" id="para">Our website aims to provide a collaborative coding platform that allows users to work together in real-time on code projects, share knowledge, and improve their coding skills. The platform is designed to be user-friendly and accessible to coders of all skill levels, whether they are working on personal projects, collaborating with peers, or seeking to join coding communities.
+        </p>
+    </section>
+  </div>
+  <div style="background-color: #232946;">
+    <section class = 'hidden' style="display: flex;">
+      <img src="/intro-page-images/undraw_real_time_collaboration_c62i.svg" style="float: left; width: 500px; height: 500px;" alt="">
+      <div>
+        <h2 style="color: white;display: block;">Collaborate live</h2>
+        <p style="color: white;float: right;">
+          Our platform enables multiple users to work on the same codebase simultaneously. Users can see changes in real-time, make edits, and collaborate with others to resolve issues.
+        </p>
+      </div>
+    </section>
+    <div style="background-color: rgb(106, 114, 228);">
+    <section style="display: flex;" class="hidden">
+      <div style="float: left;">
+        <h2 style="color: white;" >Solve problems together</h2>
+        <p style="color: white;">Users can review each other's code and provide feedback on their work, enabling them to improve their coding skills and collaborate more effectively. Users can create, manage and organize coding projects, assign tasks, set deadlines, and track progress using project management tools.
+
+
+        </p>
+      </div>
+      <img src="/intro-page-images/undraw_scrum_board_re_wk7v.svg" alt="" style="float: right;">
+    </section>
+  </div>
+  </div>
+
+        <div style="display: grid; place-items: center;min-height: 50vh;">
+        <h2 style="color: rgb(12, 12, 12);">Choose between various languages</h2>
+        <div style="display: flex; align-items: center;">
+        <img src="/svg/logo-javascript.svg" alt="" style="height: 100px; width: 100px;transition: all 3s;" class="hidden">
+        <img src="/svg/html-1.svg" alt="" style="height: 100px; width: 100px;transition: all 2.5s;" class="hidden">
+        <img src="/svg/css-3.svg" alt="" style="height: 100px; width: 100px;transition: all 2s;" class="hidden">
+        <img src="/svg/c.svg" alt="" style="height: 100px; width: 100px;transition: all 1.5s;" class="hidden">
+        <img src="/svg/rust.svg" alt="" style="height: 100px; width: 100px;transition: all 1s;" class="hidden">
+        </div>
+        </div>
+        <footer class="bg-dark text-white pt-4 pb-4" style="background-color: #001220;" id="footer">
+          <div class="container-fluid">
+            <a href="https://github.com/ArpanMahanty01" target="_blank" class="navbar-brand" href="#">Made with <i class="fa-solid fa-heart"></i> by Arpan Mahanty  <i class="fa-brands fa-github"></i></a>
+          </div>
+        </footer>
+        <script src="../../introPage.js" defer></script>
+    <script src="https://kit.fontawesome.com/c9f863a1b4.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+  </body>
+</html>

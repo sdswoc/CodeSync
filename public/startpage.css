@@ -1,0 +1,57 @@
+.navbar-custom{
+    background-color: #001220;
+  }
+
+
+body{
+    background-image: url(./svg/stacked-waves-haikei.svg);
+    height: 100vh;
+    z-index: -2;
+}
+
+.overlay{
+    height: 100vh;
+    background-image: linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5));
+    z-index: -1;
+}
+
+#fullPage{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    height: 35%;
+    background-color: rgba(0,0,0,0.5);
+    padding: 25px;
+    border-radius: 25px;
+    border-width: 5px;
+    border-color: #44CFCB;
+}
+#username{
+    border-radius: 10px;
+    text-align: center; 
+    margin: 5px;  
+}
+
+#roomId{
+    border-radius: 10px;
+    text-align: center; 
+    margin:5px;
+}
+
+#input{
+    margin: 10px;
+}
+
+#fullPage div div{
+    display: flex;
+    justify-content: center;
+    padding: 5px;
+}
+
+#joinRoom{
+    width: 100%;
+}
+
+
+
